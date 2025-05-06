@@ -13,7 +13,6 @@ const taskSchema = new mongoose.Schema({
     type: Date,
   },
   isReminderSet: { type: Boolean, default: false },
-  interval: { type: String, enum: ['yearly', 'monthly', 'weekly']},
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

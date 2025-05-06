@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Middleware to verify token for protected routes
 const authenticateToken = (req, res, next) => {
-  
+
   const token = req.headers['authorization']?.split(' ')[1]; // Bearer <token>
 
   if (!token) {
@@ -22,7 +22,7 @@ const authenticateToken = (req, res, next) => {
 };
 // Add a new task
 router.post('/', authenticateToken, async (req, res) => {
-  const { name, isPredefined, reminderTime, interval, userId } = req.body;
+  const { name, isPredefined, reminderTime, userId } = req.body;
 
   if (!name || !userId) {
     return res.status(400).json({ message: 'Task name and user ID are required' });
@@ -34,20 +34,19 @@ router.post('/', authenticateToken, async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-  
+
     // Create new task
     const task = new Task({
       name,
       isPredefined,
       reminderTime,
-      interval,
       user: userId,
     });
-  
+
     const savedTask = await task.save();
     user.tasks.push(savedTask._id);
     await user.save();
-  
+
     // Return created task
     res.status(201).json(savedTask);
   } catch (error) {

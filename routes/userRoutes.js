@@ -8,9 +8,9 @@ require('dotenv').config(); // Load environment variables
 
 // Predefined tasks
 const predefinedTasks = [
-  { name: 'Change water filter', isPredefined: true, reminderTime: null, interval: 'monthly' },
-  { name: 'Test smoke/fire alarm', isPredefined: true, reminderTime: null, interval: 'yearly' },
-  { name: 'Replace air purifier filter', isPredefined: true, reminderTime: null, interval: 'monthly' },
+  { name: 'Change water filter', isPredefined: true, reminderTime: null },
+  { name: 'Test smoke/fire alarm', isPredefined: true, reminderTime: null },
+  { name: 'Replace air purifier filter', isPredefined: true, reminderTime: null },
 ];
 
 // Utility function to set reminder time based on interval
@@ -139,17 +139,17 @@ router.post('/login', async (req, res) => {
 // Middleware to verify token for protected routes
 const authenticateToken = (req, res, next) => {
   const token = req.headers['authorization']?.split(' ')[1]; // Bearer <token>
-  
+
   // Log the authorization header to check its format
   console.log('Authorization header:', req.headers['authorization']);
-  
+
   if (!token) {
     return res.status(403).json({ message: 'No token provided' });
   }
 
   // Log the secret for debugging
   console.log('JWT_SECRET:', process.env.JWT_SECRET);
-  
+
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       console.log('JWT verification error:', err.message);  // Log the error
